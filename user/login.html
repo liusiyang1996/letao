@@ -57,11 +57,10 @@
             type: 'post',
             data: value,
             success: function (data) {
-                console.log(data);
                 if (data.success) {
                     location.href = '/index.html';
                 } else {
-                    console.log('lose');
+                    alert(data.message);
                 }
             }
         })
