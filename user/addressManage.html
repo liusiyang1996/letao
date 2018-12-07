@@ -20,18 +20,23 @@
         <span class="title">收货地址管理</span>
     </header>
     <div class="cz_container">
-        <div class="form_box">
-            <div class="mui-input-row">
-                <input name="delivery" type="text" placeholder="收货人">
+        <form>
+            <div class="form_box">
+                <div class="mui-input-row">
+                    <input name="recipients" type="text" placeholder="收货人">
+                </div>
+                <div class="mui-input-row">
+                    <input name="postcode" type="text" placeholder="邮编">
+                </div>
+                <div class="mui-input-row">
+                    <input name="address" type="text" placeholder="省市县">
+                </div>
+                <div class="mui-input-row">
+                    <textarea name="addressDetail" id="textarea" rows="5" placeholder="详细地址"></textarea>
+                </div>
+                <a href="javascript:;" class="mui-btn mui-btn-primary btn_login">确认</a>
             </div>
-            <div class="mui-input-row">
-                <input name="postCode" type="text" placeholder="邮编">
-            </div>
-            <div class="mui-input-row">
-                <textarea name="address" id="textarea" rows="5" placeholder="多行文本框"></textarea>
-            </div>
-            <a href="index.html" class="mui-btn mui-btn-primary btn_login">确认</a>
-        </div>
+        </form>
     </div>
     <footer class="cz_tabs">
         <a class="tab_home fa fa-home" href="../index.html"><span>首页</span></a>
@@ -40,6 +45,24 @@
         <a class="tab_user fa fa-user" href="../user/index.html"><span>会员中心</span></a>
     </footer>
 </div>
-<script src="../res/mui/js/mui.min.js"></script>
+<script src="/js/jquery.min.js"></script>
+<script src="/res/mui/js/mui.min.js"></script>
+<script>
+    // 添加收货地址
+    $('.btn_login').on('click', function () {
+        var value = $('form').serialize();
+        $.ajax({
+            url: '/api/address/addAddress',
+            data: value,
+            type: 'post',
+            success: function (data) {
+                if (data.success) {
+                    alert('添加成功');
+                    location.href = '/user/address.html';
+                }
+            }
+        })
+    })
+</script>
 </body>
 </html>
