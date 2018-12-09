@@ -78,10 +78,11 @@
             type: 'post',
             success: function (data) {
                 if (data.success) {
-                    alert('删除成功');
-                    a.parent().parent().remove();
+                    mui.alert('删除成功', '提示', '确定', function () {
+                        a.parent().parent().remove();
+                    });
                 } else {
-                    alert('删除失败');
+                    mui.alert('删除失败', '提示', '确定', '');
                 }
             }
         })

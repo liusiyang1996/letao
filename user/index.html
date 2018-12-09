@@ -71,8 +71,9 @@
             url: '/api/user/logout',
             success: function (data) {
                 if (data.success) {
-                    alert('退出成功');
-                    location.href = '/user/login.html';
+                    mui.alert('退出成功', '提示', '确定', function () {
+                        location.href = '/user/login.html';
+                    });
                 }
             }
         })

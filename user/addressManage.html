@@ -57,8 +57,9 @@
             type: 'post',
             success: function (data) {
                 if (data.success) {
-                    alert('添加成功');
-                    location.href = '/user/address.html';
+                    mui.alert('添加成功', '提示', '确定', function () {
+                        location.href = '/user/address.html';
+                    });
                 }
             }
         })
