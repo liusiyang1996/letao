@@ -46,6 +46,19 @@
 <script src="/js/jquery.min.js"></script>
 <script src="/res/mui/js/mui.min.js"></script>
 <script>
+    // 获取url参数
+    console.log(location);
+    // 截取url参数中?后的字符串
+    var search = location.search.slice(1);
+    // 定义正则表达式
+    var reg = /url=(.+)/;
+    // 用正则对字符串进行分割，获得一个数组
+    var result = reg.exec(search);
+    // 将结果处理后赋值给变量url
+    var url = result && result[1];
+    url = url || '/index.html';
+
+
     // 提交登录信息
     $('form').on('submit', function () {
         var value = $(this).serialize();
@@ -58,7 +71,7 @@
             data: value,
             success: function (data) {
                 if (data.success) {
-                    location.href = '/index.html';
+                    location.href = url;
                 } else {
                     mui.alert(data.message, '提示', '确定', '');
                 }

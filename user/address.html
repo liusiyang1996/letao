@@ -59,9 +59,13 @@
     $.ajax({
         url: '/api/address/queryAddress',
         success: function (data) {
-            var json = {'list': data};
-            var html = template('tpl', json);
-            $('.mui-table-view').html(html);
+            if (data.error) {
+                location.href = '/user/login.html?url=' + location.href;
+            } else {
+                var json = {'list': data};
+                var html = template('tpl', json);
+                $('.mui-table-view').html(html);
+            }
         }
     });
     // 添加功能
