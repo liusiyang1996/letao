@@ -12,6 +12,14 @@
     <link rel="stylesheet" href="res/fontAwesome/css/font-awesome.min.css"/>
     <link rel="stylesheet" href="css/common.css"/>
     <link rel="stylesheet" href="css/product.css"/>
+    <style>
+        .active {
+            background-color: #ccc;
+        }
+        #num {
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
 <div class="cz_layout">
@@ -22,83 +30,145 @@
     </header>
     <div class="cz_container ">
         <div class="mui-scroll-wrapper">
-            <div class="mui-scroll">
-                <div class="cz_banner mui-slider">
-                    <div class="mui-slider-group mui-slider-loop">
-                        <div class="mui-slider-item mui-slider-item-duplicate">
-                            <a href="#"><img src="images/product.jpg"></a>
-                        </div>
-                        <div class="mui-slider-item mui-active">
-                            <a href="#"><img src="images/product.jpg"></a>
-                        </div>
-                        <div class="mui-slider-item mui-active">
-                            <a href="#"><img src="images/product.jpg"></a>
-                        </div>
-                        <div class="mui-slider-item mui-slider-item-duplicate">
-                            <a href="#"><img src="images/product.jpg"></a>
-                        </div>
-                    </div>
-                    <div class="mui-slider-indicator">
-                        <div class="mui-indicator mui-active"></div>
-                        <div class="mui-indicator"></div>
-                    </div>
-                </div>
-                <div class="p_title">
-                    Nike耐克 男式 NIKE AIR MAX 1 PND QS复刻休闲鞋
-                </div>
-                <div class="p_price">
-                    <span class="fold"><span>5.9</span>折</span>
-                    价格：<strong class="present">¥
-                    712.00</strong>
-                    <del class="original">¥1199.0</del>
-                </div>
-                <div class="p_size">
-                    尺码：
-                    <span class="btn_size">38</span>
-                    <span class="btn_size">39</span>
-                    <span class="btn_size">40</span>
-                    <span class="btn_size">41</span>
-                    <span class="btn_size">43</span>
-                    <span class="btn_size">44</span>
-                    <span class="btn_size">45</span>
-                </div>
-                <div class="p_number">
-                    数量：
-                    <span class="jian">-</span><input type="tel"/><span class="jia">+</span>
-                    剩余：0 件
-                </div>
-                <div class="p_detail">
-                    <img data-lazyload="images/detail.jpg"  alt=""/>
-                    <img data-lazyload="images/detail.jpg"  alt=""/>
-                    <img data-lazyload="images/detail.jpg"  alt=""/>
-                    <img data-lazyload="images/detail.jpg"  alt=""/>
-                    <img data-lazyload="images/detail.jpg"  alt=""/>
-                    <img data-lazyload="images/detail.jpg"  alt=""/>
-                </div>
+            <div class="mui-scroll" id="pro">
+                
             </div>
         </div>
     </div>
 </div>
 <div class="p_option">
-    <a href="#" class="btn_cart fa fa-shopping-cart"></a>
-    <a href="#" class="btn_addCart">加入购物车</a>
-    <a href="#" class="btn_pay">立即购买</a>
+    <a href="/cart.html" class="btn_cart fa fa-shopping-cart"></a>
+    <a href="javascript:;" class="btn_addCart">加入购物车</a>
+    <a href="javascript:;" class="btn_pay">立即购买</a>
 </div>
+<script type="text/template" id="tpl">
+    <div class="cz_banner mui-slider">
+        <div class="mui-slider-group mui-slider-loop">
+            <div class="mui-slider-item mui-slider-item-duplicate">
+                <a href="#"><img src="images/product.jpg"></a>
+            </div>
+            <div class="mui-slider-item mui-active">
+                <a href="#"><img src="images/product.jpg"></a>
+            </div>
+            <div class="mui-slider-item mui-active">
+                <a href="#"><img src="images/product.jpg"></a>
+            </div>
+            <div class="mui-slider-item mui-slider-item-duplicate">
+                <a href="#"><img src="images/product.jpg"></a>
+            </div>
+        </div>
+        <div class="mui-slider-indicator">
+            <div class="mui-indicator mui-active"></div>
+            <div class="mui-indicator"></div>
+        </div>
+    </div>
+    <div class="p_title">
+        {{proName}}
+    </div>
+    <div class="p_price">
+        <span class="fold"><span>{{discount}}</span>折</span>
+        价格：<strong class="present">¥{{price}}</strong>
+        <del class="original">¥{{oldPrice}}</del>
+    </div>
+    <div class="p_size">
+        尺码：
+        {{each size val}}
+        <span class="btn_size">{{val}}</span>
+        {{/each}}
+    </div>
+    <div class="p_number">
+        数量：
+        <span class="jian">-</span><input type="tel" id="num" value=1><span class="jia">+</span>
+        剩余：{{num}} 件
+    </div>
+    <div class="p_detail">
+        <img data-lazyload="images/detail.jpg"  alt=""/>
+        <img data-lazyload="images/detail.jpg"  alt=""/>
+        <img data-lazyload="images/detail.jpg"  alt=""/>
+        <img data-lazyload="images/detail.jpg"  alt=""/>
+        <img data-lazyload="images/detail.jpg"  alt=""/>
+        <img data-lazyload="images/detail.jpg"  alt=""/>
+    </div>
+</script>
+<script src="/js/jquery.min.js"></script>
+<script src="/js/template-web.js"></script>
 <script src="res/mui/js/mui.min.js"></script>
-<script src="res/mui/js/mui.lazyload.js"></script>
-<script src="res/mui/js/mui.lazyload.img.js"></script>
 <script>
     // 获取url中的参数
     var search = location.search.slice(1);
     var arr = search.split('&');
-    console.log(arr);
     var obj = {};
     for (var i = 0; i < arr.length; i++) {
         var arr1 = arr[i].split('=');
         obj[arr1[0]] = arr1[1];
     };
-    console.log(obj);
+    var id = obj.id;
+    // 获取并处理数据
+    $.ajax({
+        url: '/api/product/queryProductDetail',
+        data: {
+            id: id
+        },
+        success: function (data) {
+            data.size = data.size.split('-');
+            data.discount = ((data.price / data.oldPrice).toFixed(1)) * 10;
+            var html = template('tpl', data);
+            $('#pro').html(html);
+            maxNum = data.num;
+        }
+    });
 
+    // 为尺码标记
+    $('#pro').on('click', '.btn_size', function () {
+        $(this).addClass('active').siblings().removeClass('active');
+    });
+
+    // 添加购物车
+    $('.btn_addCart').on('click', function () {
+        // 获取参数
+        var size = $('.btn_size.active').text();
+        if (size == '') {
+            mui.alert('请选择尺码', '提示', '确定', '');
+            return;
+        }
+        var num = $('#num').val();
+        $.ajax({
+            url: '/api/cart/addCart',
+            type: 'post',
+            data: {
+                productId: id,
+                num: num,
+                size: size
+            },
+            success: function (data) {
+                if (data.error) {
+                    mui.alert('请登录', '提示', '确定', function () {
+                        location.href = '/user/login.html?url=' + location.href;
+                    })
+                } else {
+                    mui.toast('加入成功');
+                }
+            }
+        })
+    })
+
+    // 数量
+    $('#pro').on('click', '.jian', function () {
+        var num = $('#num').val();
+        num--;
+        if (num < 1) {
+            return;
+        };
+        $('#num').val(num);
+    });
+    $('#pro').on('click', '.jia', function () {
+        var num = $('#num').val();
+        num++;
+        if (num > (maxNum - 1)) {
+            return;
+        };
+        $('#num').val(num);
+    });
 
     mui(function(){
         mui('.mui-slider').slider({
@@ -112,21 +182,6 @@
             indicators: false, //是否显示滚动条
             deceleration:0.0006, //阻尼系数,系数越小滑动越灵敏
             bounce: true, //是否启用回弹
-        });
-        mui.init({
-            pullRefresh: {
-                container: '.mui-scroll-wrapper',
-                down: {
-                    callback: function(){
-                        setTimeout(function(){
-                            mui('.mui-scroll-wrapper').pullRefresh().endPulldownToRefresh(); //refresh completed
-                        },1000);
-                    }
-                }
-            }
-        });
-        mui('.p_detail').imageLazyload({
-            placeholder: '../images/user.jpg'
         });
     });
 </script>
