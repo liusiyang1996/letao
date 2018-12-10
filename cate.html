@@ -22,12 +22,8 @@
     </header>
     <div class="cz_container">
         <div class="cate_slide">
-            <ul>
-                <li class="now">运动馆</li>
-                <li>女士馆</li>
-                <li>男士馆</li>
-                <li>帆布馆</li>
-                <li>户外馆</li>
+            <ul id="topNav">
+                
             </ul>
         </div>
         <div class="cate_content">
@@ -45,17 +41,9 @@
                         <li><a href="#"><img src="images/brand8.png" alt=""/><p>耐克</p></a></li>
                         <li><a href="#"><img src="images/brand1.png" alt=""/><p>耐克</p></a></li>
                     </ul>
-                    <span class="title">运动休闲</span>
-                    <ul class="mui-clearfix">
-                        <li><a href="#"><img src="images/brand1.png" alt=""/><p>耐克</p></a></li>
-                        <li><a href="#"><img src="images/brand2.png" alt=""/><p>耐克</p></a></li>
-                        <li><a href="#"><img src="images/brand3.png" alt=""/><p>耐克</p></a></li>
-                        <li><a href="#"><img src="images/brand4.png" alt=""/><p>耐克</p></a></li>
-                        <li><a href="#"><img src="images/brand5.png" alt=""/><p>耐克</p></a></li>
-                        <li><a href="#"><img src="images/brand6.png" alt=""/><p>耐克</p></a></li>
-                        <li><a href="#"><img src="images/brand7.png" alt=""/><p>耐克</p></a></li>
-                        <li><a href="#"><img src="images/brand8.png" alt=""/><p>耐克</p></a></li>
-                    </ul>
+                    <div class="content">
+
+                    </div>
                 </div>
             </div>
         </div>
@@ -67,8 +55,51 @@
         <a class="tab_user fa fa-user" href="user/index.html"><span>会员中心</span></a>
     </footer>
 </div>
+<script type="text/template" id="firsttpl">
+    {{each rows val}}
+    <li index={{val.id}}>{{val.categoryName}}</li>
+    {{/each}}
+</script>
+<script type="text/template" id="secondtpl">
+    <span class="title">{{title}}</span>
+    <ul class="mui-clearfix">
+        {{each rows val}}
+        <li><a href="#"><img src="/api{{val.brandLogo}}" alt=""/><p>{{val.brandName}}</p></a></li>
+        {{/each}}
+    </ul>
+</script>
+<script src="/js/jquery.min.js"></script>
+<script src="/js/template-web.js"></script>
 <script src="res/mui/js/mui.min.js"></script>
 <script>
+    // 一级标题
+    $.ajax({
+        url: '/api/category/queryTopCategory',
+        success: function (data) {
+            var html = template('firsttpl', data);
+            $('#topNav').html(html);
+            $('#topNav li:first-child').trigger('click');
+        }
+    });
+
+    // 二级标题
+    $('#topNav').on('click', 'li', function () {
+        var id = $(this).attr('index');
+        var title = $(this).text();
+        $(this).addClass('now').siblings().removeClass('now');
+        $.ajax({
+            url: '/api/category/querySecondCategory',
+            data: {
+                id: id
+            },
+            success: function (data) {
+                data.title = title;
+                var html = template('secondtpl', data);
+                $('.content').html(html);
+            }
+        })
+    });
+
     mui(function(){
         mui('.mui-scroll-wrapper').scroll({
             scrollY: true, //是否竖向滚动
